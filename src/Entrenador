@@ -1,0 +1,15 @@
+public abstract class Entrenador extends Carta{
+
+    private String descripcion;
+
+    public Boolean esPokemonBasico() {
+
+    }
+
+    public Boolean puedeActivar() {
+
+    }
+    public Void Activar() {
+        
+    }
+}
