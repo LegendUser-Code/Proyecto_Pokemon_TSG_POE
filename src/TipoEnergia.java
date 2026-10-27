@@ -9,7 +9,7 @@ public enum TipoEnergia{
         TipoEnergia miTipoEnergia = this;
         switch(miTipoEnergia){
             case FUEGO:
-                 return atacante == AGUA;
+                return atacante == AGUA;
 
             case AGUA:
                 return atacante == ELECTRICO;
