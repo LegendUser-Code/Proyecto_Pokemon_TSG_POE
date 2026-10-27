@@ -6,11 +6,12 @@ public abstract class Carta {
         this.nombre = nombre;
     }
 
+    public Boolean esPokemonBasico() {
+        return false;
+    }
     public String getNombre() {
         return nombre;
     }
-    @override
-    public String mostrarDetalle() {
-        // Implementar
-    }
+    
+
 }
