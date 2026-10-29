@@ -1,4 +1,4 @@
-public enum TipoEnergia{
+public enum TipoEnergia {
     FUEGO,
     AGUA,
     ELECTRICO,
@@ -7,22 +7,17 @@ public enum TipoEnergia{
 
     public boolean esDebilContra(TipoEnergia atacante) {
         TipoEnergia miTipoEnergia = this;
-        switch(miTipoEnergia){
+        switch (miTipoEnergia) {
             case FUEGO:
                 return atacante == AGUA;
-
             case AGUA:
-                return atacante == ELECTRICO;
-
+                return atacante == FUEGO || atacante == ELECTRICO;
             case ELECTRICO:
-                return atacante == PSIQUICO;
-
+                return false;
             case PSIQUICO:
-                return atacante == FUEGO;
-
+                return false;
             case INCOLORO:
-                return false;        // no tiene debilidad
-
+                return atacante == PSIQUICO;
             default:
                 return false;
         }
