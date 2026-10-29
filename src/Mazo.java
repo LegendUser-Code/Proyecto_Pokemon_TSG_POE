@@ -6,40 +6,43 @@ import java.util.Map;
 
 public class Mazo {
 
-    public static final int TAMANO = 20;      
-    public static final int MAX_COPIAS = 2;  
-    public static final int MIN_BASICOS = 6; 
-    public static final int MANO_INICIAL = 5; 
+    public static final int TAMANO = 20;
+    public static final int MAX_COPIAS = 2;
+    public static final int MIN_BASICOS = 6;
+    public static final int MANO_INICIAL = 5;
 
-    private final List<Carta> cartas;
-
+    private List<Carta> composicion;
+    private List<Carta> cartas;
 
     public Mazo(List<Carta> cartas) {
-        if (cartas == null) {
-            throw new IllegalArgumentException("La lista de cartas no puede ser null");
+        if (cartas == null || !cumpleReglas(cartas)) {
+            System.out.println("Mazo invalido: se requieren " + TAMANO + " cartas, maximo "
+                + MAX_COPIAS + " copias por carta y minimo " + MIN_BASICOS + " basicos");
         }
-        if (!esValido(cartas)) {
-            throw new IllegalArgumentException("Mazo inválido: se requieren " + TAMANO
-                + " cartas, máximo " + MAX_COPIAS + " copias por carta y mínimo "
-                + MIN_BASICOS + " Pokémon básicos");
-        }
-        this.cartas = new ArrayList<>(cartas); 
+        List<Carta> base = cartas == null ? new ArrayList<>() : cartas;
+        this.composicion = new ArrayList<>(base);
+        this.cartas = new ArrayList<>(base);
     }
 
-  
-    public static boolean esValido(List<Carta> cartas) {
-        if (cartas == null || cartas.size() != TAMANO) {
+    public boolean esValido() {
+        return cumpleReglas(this.composicion);
+    }
+
+    private static boolean cumpleReglas(List<Carta> lista) {
+        if (lista.size() != TAMANO) {
             return false;
         }
-        var copias = new HashMap<String, Integer>();
+        Map<String, Integer> copias = new HashMap<>();
         int basicos = 0;
-        for (Carta c : cartas) {
+        for (Carta c : lista) {
             if (c == null) {
                 return false;
             }
-            if (copias.merge(c.getNombre(), 1, Integer::sum) > MAX_COPIAS) {
+            int cantidad = copias.getOrDefault(c.getNombre(), 0) + 1;
+            if (cantidad > MAX_COPIAS) {
                 return false;
             }
+            copias.put(c.getNombre(), cantidad);
             if (c.esPokemonBasico()) {
                 basicos++;
             }
@@ -51,11 +54,15 @@ public class Mazo {
         Collections.shuffle(this.cartas);
     }
 
-   
+    // Roba la mano inicial de 5 cartas. Si no sale ningun basico hace mulligan.
     public List<Carta> robarManoInicial() {
-        var mano = new ArrayList<Carta>();
+        if (this.cartas.size() != TAMANO) {
+            System.out.println("El mazo no esta completo");
+            return new ArrayList<>();
+        }
+        List<Carta> mano = new ArrayList<>();
         do {
-            this.cartas.addAll(mano); 
+            this.cartas.addAll(mano);
             mano.clear();
             barajar();
             for (int i = 0; i < MANO_INICIAL; i++) {
@@ -65,7 +72,7 @@ public class Mazo {
         return mano;
     }
 
-    private static boolean tieneBasico(List<Carta> mano) {
+    private boolean tieneBasico(List<Carta> mano) {
         for (Carta c : mano) {
             if (c.esPokemonBasico()) {
                 return true;
@@ -74,9 +81,11 @@ public class Mazo {
         return false;
     }
 
-    
     public Carta robar() {
-        return this.cartas.isEmpty() ? null : this.cartas.removeLast(); 
+        if (this.cartas.isEmpty()) {
+            return null;
+        }
+        return this.cartas.remove(this.cartas.size() - 1);
     }
 
     public int getCantidadCartas() {
