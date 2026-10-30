@@ -3,7 +3,7 @@ public class Misty extends Soporte {
     public Misty() {
         super(
             "Misty",
-            "Adjunta hasta 3 energias agua"
+            "Adjunta hasta 3 energias Agua a un Pokemon de Agua"
         );
     }
 
@@ -15,6 +15,11 @@ public class Misty extends Soporte {
     @Override
     public Void Activar() {
 
+        System.out.println(
+            "Misty activada"
+        );
+
         return null;
     }
+
 }

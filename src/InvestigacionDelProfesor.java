@@ -2,8 +2,8 @@ public class InvestigacionDelProfesor extends Soporte {
 
     public InvestigacionDelProfesor() {
         super(
-            "Investigación del Profesor",
-            "Descarta tu mano y roba 2 cartas"
+            "Investigacion del Profesor",
+            "Descarta tu mano actual y roba 2 cartas del mazo"
         );
     }
 
@@ -15,6 +15,11 @@ public class InvestigacionDelProfesor extends Soporte {
     @Override
     public Void Activar() {
 
+        System.out.println(
+            "Investigacion del Profesor activada"
+        );
+
         return null;
     }
+
 }
