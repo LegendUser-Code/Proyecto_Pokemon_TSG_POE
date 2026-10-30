@@ -9,5 +9,10 @@ public class PokemonEx extends Pokemon{
     public byte getPuntosPremio() {
         return 2;
     }
-    
+
+    @Override
+    public Boolean esPokemonBasico() {
+        return true; // los pokemon-ex tambien son basicos
+    }
+
 }
