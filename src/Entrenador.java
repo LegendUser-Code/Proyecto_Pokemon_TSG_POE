@@ -8,6 +8,10 @@ public abstract class Entrenador extends Carta{
         
     }
 
+    public String getDescripcion() {
+    return descripcion;
+}
+
     public abstract Boolean puedeActivar();
     
     public abstract Void Activar();

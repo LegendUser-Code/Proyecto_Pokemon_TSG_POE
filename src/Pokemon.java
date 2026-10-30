@@ -78,7 +78,7 @@ public abstract class Pokemon extends Carta{
         if(pokemonAtacado.getTipo().esDebilContra(getTipo())){
             danio += 20;
             System.out.println("El tipo de elemento de " + pokemonAtacado.getNombre() +
-             " es debil contra el tipo de" + getNombre());
+            " es debil contra el tipo de" + getNombre());
         }
 
         pokemonAtacado.recibirDaño(danio);
@@ -114,7 +114,7 @@ public abstract class Pokemon extends Carta{
         }
 
         System.out.println(getNombre() + " ha recibido curacion (" + this.psActual +
-         "/" + this.psMaximo + ")");
+        "/" + this.psMaximo + ")");
     }
 
     public boolean estaDerrotado(){
