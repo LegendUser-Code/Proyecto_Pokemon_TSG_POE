@@ -19,8 +19,7 @@ public class CatalogoCartas {
         return nombres;
     }
 
-    // 20 cartas: 10 Pokémon (5 tipos x 2 copias) + 10 entrenadores (5 tipos x 2 copias).
-    // Se añaden como Carta (polimorfismo).
+    
     private List<Carta> armarMazoFuegoAgua() {
         List<Carta> cartas = new ArrayList<>();
         for (int i = 0; i < 2; i++) {
