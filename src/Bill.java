@@ -7,23 +7,26 @@ public class Bill extends Soporte {
         );
     }
 
-    @Override
-    public Boolean puedeActivar(Jugador jugador) {
+@Override
+public Boolean puedeActivar(Jugador jugador) {
 
-        return jugador != null &&
-            jugador.puedeRobar();
-    }
+    return jugador != null &&
+        jugador.puedeJugarSoporte() &&
+        jugador.puedeRobar();
+}
 
-    @Override
-    public Void Activar(Jugador jugador) {
+@Override
+public Void Activar(Jugador jugador) {
 
-        if (!puedeActivar(jugador)) {
-            return null;
-        }
-
-        jugador.robarCarta();
-        jugador.robarCarta();
-
+    if (!puedeActivar(jugador)) {
         return null;
     }
+
+    jugador.robarCarta();
+    jugador.robarCarta();
+
+    jugador.registrarSoporte();
+
+    return null;
+}
 }

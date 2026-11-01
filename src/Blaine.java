@@ -7,19 +7,23 @@ public class Blaine extends Soporte {
         );
     }
 
-    @Override
-    public Boolean puedeActivar(Jugador jugador) {
+@Override
+public Boolean puedeActivar(Jugador jugador) {
 
-        if (jugador == null) {
-            return false;
-        }
-
-        Pokemon activo =
-            jugador.getCampo().getPokemonActivo();
-
-        return activo != null &&
-            activo.getTipo() == TipoEnergia.FUEGO;
+    if (jugador == null) {
+        return false;
     }
+
+    if (!jugador.puedeJugarSoporte()) {
+        return false;
+    }
+
+    Pokemon activo =
+        jugador.getCampo().getPokemonActivo();
+
+    return activo != null &&
+        activo.getTipo() == TipoEnergia.FUEGO;
+}
 
     @Override
     public Void Activar(Jugador jugador) {
@@ -33,6 +37,7 @@ public class Blaine extends Soporte {
             activo.adjuntarEnergia(TipoEnergia.FUEGO);
             activo.adjuntarEnergia(TipoEnergia.FUEGO);
             activo.adjuntarEnergia(TipoEnergia.FUEGO);
+            jugador.registrarSoporte();
         }
 
         return null;

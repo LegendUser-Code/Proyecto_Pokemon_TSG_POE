@@ -32,6 +32,7 @@ public class CatalogoCartas {
             cartas.add(new Pocion());
             cartas.add(new PokeBall());
             cartas.add(new Misty());
+            cartas.add(new Blaine());
             cartas.add(new TurboVelocidad());
         }
         return cartas;
@@ -48,7 +49,8 @@ public class CatalogoCartas {
             cartas.add(new InvestigacionDelProfesor());
             cartas.add(new Pocion());
             cartas.add(new PokeBall());
-            cartas.add(new Misty());
+            cartas.add(new Sabrina());
+            cartas.add(new TenienteSurge());
             cartas.add(new TurboVelocidad());
         }
         return cartas;

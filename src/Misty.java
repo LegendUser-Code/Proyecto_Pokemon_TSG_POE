@@ -14,6 +14,10 @@ public Boolean puedeActivar(Jugador jugador) {
         return false;
     }
 
+    if (!jugador.puedeJugarSoporte()) {
+        return false;
+    }
+
     Pokemon activo =
         jugador.getCampo().getPokemonActivo();
 
@@ -37,6 +41,7 @@ public Void Activar(Jugador jugador) {
         activo.adjuntarEnergia(TipoEnergia.AGUA);
         activo.adjuntarEnergia(TipoEnergia.AGUA);
         activo.adjuntarEnergia(TipoEnergia.AGUA);
+        jugador.registrarSoporte();
 
         System.out.println(
             "Misty adjunto 3 energias Agua"

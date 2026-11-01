@@ -7,20 +7,23 @@ public class Sabrina extends Soporte {
         );
     }
 
-    @Override
-    public Boolean puedeActivar(Jugador jugador) {
+@Override
+public Boolean puedeActivar(Jugador jugador) {
 
-        if (jugador == null) {
-            return false;
-        }
-
-        Pokemon activo =
-            jugador.getCampo().getPokemonActivo();
-
-        return activo != null &&
-            activo.getTipo() == TipoEnergia.PSIQUICO;
+    if (jugador == null) {
+        return false;
     }
 
+    if (!jugador.puedeJugarSoporte()) {
+        return false;
+    }
+
+    Pokemon activo =
+        jugador.getCampo().getPokemonActivo();
+
+    return activo != null &&
+        activo.getTipo() == TipoEnergia.PSIQUICO;
+}
     @Override
     public Void Activar(Jugador jugador) {
 
@@ -33,6 +36,7 @@ public class Sabrina extends Soporte {
             activo.adjuntarEnergia(TipoEnergia.PSIQUICO);
             activo.adjuntarEnergia(TipoEnergia.PSIQUICO);
             activo.adjuntarEnergia(TipoEnergia.PSIQUICO);
+            jugador.registrarSoporte();
         }
 
         return null;

@@ -7,19 +7,23 @@ public class TenienteSurge extends Soporte {
         );
     }
 
-    @Override
-    public Boolean puedeActivar(Jugador jugador) {
+@Override
+public Boolean puedeActivar(Jugador jugador) {
 
-        if (jugador == null) {
-            return false;
-        }
-
-        Pokemon activo =
-            jugador.getCampo().getPokemonActivo();
-
-        return activo != null &&
-            activo.getTipo() == TipoEnergia.ELECTRICO;
+    if (jugador == null) {
+        return false;
     }
+
+    if (!jugador.puedeJugarSoporte()) {
+        return false;
+    }
+
+    Pokemon activo =
+        jugador.getCampo().getPokemonActivo();
+
+    return activo != null &&
+        activo.getTipo() == TipoEnergia.ELECTRICO;
+}
 
     @Override
     public Void Activar(Jugador jugador) {
@@ -33,6 +37,7 @@ public class TenienteSurge extends Soporte {
             activo.adjuntarEnergia(TipoEnergia.ELECTRICO);
             activo.adjuntarEnergia(TipoEnergia.ELECTRICO);
             activo.adjuntarEnergia(TipoEnergia.ELECTRICO);
+            jugador.registrarSoporte();
 
             System.out.println(
                 "Teniente Surge adjunto 3 energias Electricas"

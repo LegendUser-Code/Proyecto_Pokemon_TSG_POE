@@ -7,9 +7,10 @@ public class InvestigacionDelProfesor extends Soporte {
         );
     }
 
-    @Override
+@Override
 public Boolean puedeActivar(Jugador jugador) {
     return jugador != null &&
+        jugador.puedeJugarSoporte() &&
         jugador.puedeRobar();
 }
 
@@ -19,12 +20,10 @@ public Void Activar(Jugador jugador) {
     if (!puedeActivar(jugador)) {
         return null;
     }
-
     jugador.getMano().clear();
-
     jugador.robarCarta();
     jugador.robarCarta();
-
+    jugador.registrarSoporte();
     System.out.println(
         "Investigacion del Profesor activada"
     );
