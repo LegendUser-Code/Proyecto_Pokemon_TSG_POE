@@ -1,41 +1,75 @@
+import java.util.ArrayList;
+import java.util.List;
+
 public class App {
-    public static void main(String[] args) throws Exception {
-        
-        Ataque ataque1 = new Ataque("Trueno", 2, TipoEnergia.ELECTRICO, 20);
-        Ataque ataque2 = new Ataque("Tormenta", 3, TipoEnergia.ELECTRICO, 40);
 
+    public static void main(String[] args) {
 
-        Ataque ataque3 = new Ataque("Ascuas", 2, TipoEnergia.FUEGO, 30);
-        Ataque ataque4 = new Ataque("Volcan", 3, TipoEnergia.FUEGO, 50);
+        Consola consola = new Consola();
 
-        PokemonBasico pikachu = new PokemonBasico(
-            "Pikachu",
-            TipoEnergia.ELECTRICO,
-            (short)80,
-            (short)80,
-            (byte)2
-        );
-        pikachu.agregarAtaque(ataque1);
-        pikachu.agregarAtaque(ataque2);
+        CatalogoCartas catalogo =
+            new CatalogoCartas();
 
-        PokemonBasico charmander = new PokemonBasico("Charmander",
-            TipoEnergia.FUEGO,
-            (short)65,
-            (short)65,
-            (byte)2
+        String nombreJugador1 =
+            consola.pedirNombreJugador();
+
+        int mazoJugador1 =
+            consola.elegirMazo(nombreJugador1);
+
+        String nombreJugador2 =
+            consola.pedirNombreJugador();
+
+        int mazoJugador2 =
+            consola.elegirMazo(nombreJugador2);
+
+        Mazo mazo1 =
+            catalogo.crearMazoPredefinido(
+                mazoJugador1
             );
-        charmander.agregarAtaque(ataque3);
-        charmander.agregarAtaque(ataque4);
 
-        System.out.println(pikachu.getNombre());
+        Mazo mazo2 =
+            catalogo.crearMazoPredefinido(
+                mazoJugador2
+            );
 
-        pikachu.atacar(ataque2, charmander);
+        List<TipoEnergia> energias =
+            new ArrayList<>();
 
-        pikachu.adjuntarEnergia(TipoEnergia.ELECTRICO);
-        pikachu.adjuntarEnergia(TipoEnergia.ELECTRICO);
-        pikachu.adjuntarEnergia(TipoEnergia.ELECTRICO);
+        energias.add(TipoEnergia.FUEGO);
+        energias.add(TipoEnergia.AGUA);
+        energias.add(TipoEnergia.ELECTRICO);
+        energias.add(TipoEnergia.PSIQUICO);
+        energias.add(TipoEnergia.INCOLORO);
 
-        pikachu.atacar(ataque2, charmander);
+        ZonaEnergia zonaJugador1 =
+            new ZonaEnergia(energias);
 
+        ZonaEnergia zonaJugador2 =
+            new ZonaEnergia(energias);
+
+        Jugador jugador1 =
+            new Jugador(
+                nombreJugador1,
+                mazo1,
+                zonaJugador1
+            );
+
+        Jugador jugador2 =
+            new Jugador(
+                nombreJugador2,
+                mazo2,
+                zonaJugador2
+            );
+
+        MotorJuego motor =
+            new MotorJuego(
+                jugador1,
+                jugador2,
+                consola
+            );
+
+        motor.iniciarPartida();
+
+        motor.ejecutarPartida();
     }
 }
