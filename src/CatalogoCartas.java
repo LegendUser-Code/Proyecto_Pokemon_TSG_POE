@@ -6,8 +6,11 @@ public class CatalogoCartas {
     public Mazo crearMazoPredefinido(int opcion) {
         if (opcion == 1) {
             return new Mazo(armarMazoFuegoAgua());
-        } else if (opcion == 2) {
+        }else if (opcion == 2) {
             return new Mazo(armarMazoElectricoPsiquico());
+        }
+        else if (opcion == 3) {
+            return new Mazo(armarMazoCampeones());
         }
         return null;
     }
@@ -16,6 +19,7 @@ public class CatalogoCartas {
         List<String> nombres = new ArrayList<>();
         nombres.add("Mazo Fuego/Agua");
         nombres.add("Mazo Eléctrico/Psíquico");
+        nombres.add("Mazo Campeones de Gimnasio");
         return nombres;
     }
 
@@ -32,7 +36,7 @@ public class CatalogoCartas {
             cartas.add(new Pocion());
             cartas.add(new PokeBall());
             cartas.add(new Misty());
-            cartas.add(new TurboVelocidad());
+            cartas.add(new Blaine());
         }
         return cartas;
     }
@@ -48,9 +52,28 @@ public class CatalogoCartas {
             cartas.add(new InvestigacionDelProfesor());
             cartas.add(new Pocion());
             cartas.add(new PokeBall());
-            cartas.add(new Misty());
-            cartas.add(new TurboVelocidad());
+            cartas.add(new Sabrina());
+            cartas.add(new TenienteSurge());
         }
         return cartas;
     }
+
+
+    private List<Carta> armarMazoCampeones() {
+    List<Carta> cartas = new ArrayList<>();
+    for (int i = 0; i < 2; i++) {
+        cartas.add(new PokemonBasico("Pikachu",TipoEnergia.ELECTRICO,(short)60,(short)60,(byte)1));
+        cartas.add(new PokemonBasico("Charmander",TipoEnergia.FUEGO,(short)60,(short)60,(byte)1));
+        cartas.add(new PokemonBasico("Squirtle",TipoEnergia.AGUA,(short)60,(short)60,(byte)1));
+        cartas.add(new PokemonEx("Mewtwo ex",TipoEnergia.PSIQUICO,(short)150,(short)150,(byte)1));
+        cartas.add(new PokemonEx("Zapdos ex",TipoEnergia.ELECTRICO,(short)130,(short)130,(byte)1));
+        cartas.add(new Bill());
+        cartas.add(new Blaine());
+        cartas.add(new TenienteSurge());
+        cartas.add(new Misty());
+        cartas.add(new Sabrina());
+    }
+
+    return cartas;
+}
 }

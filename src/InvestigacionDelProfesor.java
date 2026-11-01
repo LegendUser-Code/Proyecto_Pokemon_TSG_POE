@@ -7,19 +7,27 @@ public class InvestigacionDelProfesor extends Soporte {
         );
     }
 
-    @Override
-    public Boolean puedeActivar() {
-        return true;
-    }
+@Override
+public Boolean puedeActivar(Jugador jugador) {
+    return jugador != null &&
+        jugador.puedeJugarSoporte() &&
+        jugador.puedeRobar();
+}
 
-    @Override
-    public Void Activar() {
+@Override
+public Void Activar(Jugador jugador) {
 
-        System.out.println(
-            "Investigacion del Profesor activada"
-        );
-
+    if (!puedeActivar(jugador)) {
         return null;
     }
+    jugador.getMano().clear();
+    jugador.robarCarta();
+    jugador.robarCarta();
+    jugador.registrarSoporte();
+    System.out.println(
+        "Investigacion del Profesor activada"
+    );
 
+    return null;
+}
 }

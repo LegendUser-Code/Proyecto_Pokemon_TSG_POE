@@ -139,6 +139,9 @@ public abstract class Pokemon extends Carta{
     public List<TipoEnergia> getEnergias() {
         return energias;
     }
+    public void setCostoRetirada(byte costoRetirada) {
+    this.costoRetirada = costoRetirada;
+    }
     
     public abstract byte getPuntosPremio();
     
