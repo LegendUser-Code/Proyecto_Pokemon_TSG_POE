@@ -7,19 +7,43 @@ public class Misty extends Soporte {
         );
     }
 
-    @Override
-    public Boolean puedeActivar() {
-        return true;
+@Override
+public Boolean puedeActivar(Jugador jugador) {
+
+    if (jugador == null) {
+        return false;
     }
 
-    @Override
-    public Void Activar() {
+    Pokemon activo =
+        jugador.getCampo().getPokemonActivo();
 
-        System.out.println(
-            "Misty activada"
-        );
+    return activo != null &&
+        activo.getTipo() == TipoEnergia.AGUA;
+}
 
+@Override
+public Void Activar(Jugador jugador) {
+
+    if (jugador == null) {
         return null;
     }
+
+    Pokemon activo =
+        jugador.getCampo().getPokemonActivo();
+
+    if (activo != null &&
+        activo.getTipo() == TipoEnergia.AGUA) {
+
+        activo.adjuntarEnergia(TipoEnergia.AGUA);
+        activo.adjuntarEnergia(TipoEnergia.AGUA);
+        activo.adjuntarEnergia(TipoEnergia.AGUA);
+
+        System.out.println(
+            "Misty adjunto 3 energias Agua"
+        );
+    }
+
+    return null;
+}
 
 }

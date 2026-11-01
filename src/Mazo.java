@@ -91,4 +91,9 @@ public class Mazo {
     public int getCantidadCartas() {
         return this.cartas.size();
     }
+
+    public List<Carta> getCartas() {
+    return cartas;
+}
+
 }

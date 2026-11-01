@@ -8,16 +8,20 @@ public class Pocion extends Objeto {
     }
 
     @Override
-    public Boolean puedeActivar() {
-        return true;
+    public Boolean puedeActivar(Jugador jugador) {
+        return jugador != null
+            && jugador.getCampo().getPokemonActivo() != null;
     }
 
     @Override
-    public Void Activar() {
+    public Void Activar(Jugador jugador) {
 
-        System.out.println(
-            "Pocion activada"
-        );
+        Pokemon activo =
+            jugador.getCampo().getPokemonActivo();
+
+        if (activo != null) {
+            activo.curar(20);
+        }
 
         return null;
     }

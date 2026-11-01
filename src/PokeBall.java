@@ -1,3 +1,5 @@
+import java.util.List;
+
 public class PokeBall extends Objeto {
 
     public PokeBall() {
@@ -8,17 +10,44 @@ public class PokeBall extends Objeto {
     }
 
     @Override
-    public Boolean puedeActivar() {
-        return true;
+    public Boolean puedeActivar(Jugador jugador) {
+        return jugador != null;
     }
 
-    @Override
-    public Void Activar() {
+@Override
+public Void Activar(Jugador jugador) {
 
-        System.out.println(
-            "Poke Ball activada"
-        );
-
+    if (jugador == null) {
         return null;
     }
+
+    List<Carta> cartas =
+        jugador.getMazo().getCartas();
+
+    for (int i = 0; i < cartas.size(); i++) {
+
+        Carta carta = cartas.get(i);
+
+        if (carta.esPokemonBasico()) {
+
+            jugador.getMano().add(carta);
+
+            cartas.remove(i);
+
+            System.out.println(
+                "Poke Ball agrego "
+                + carta.getNombre()
+                + " a la mano"
+            );
+
+            return null;
+        }
+    }
+
+    System.out.println(
+        "No se encontro Pokemon basico"
+    );
+
+    return null;
+}
 }
