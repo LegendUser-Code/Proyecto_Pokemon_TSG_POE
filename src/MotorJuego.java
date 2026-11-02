@@ -1,3 +1,5 @@
+import java.util.List;
+
 public class MotorJuego {
 
     private Jugador jugador1;
@@ -115,104 +117,320 @@ private void ejecutarTurno(
 
     case 2:
 
-        System.out.println(
-            "Jugar entrenador aun no implementado."
-        );
+    System.out.println(
+        "Cartas de entrenador disponibles:"
+    );
 
-        break;
+    List<Carta> mano =
+        jugadorActual.getMano();
 
-    case 3:
+    int contador = 1;
 
-        System.out.println(
-            "Colocar Pokemon en banco aun no implementado."
-        );
+    for (Carta carta : mano) {
 
-        break;
-
-    case 4:
-
-        System.out.println(
-            "Retirar Pokemon aun no implementado."
-        );
-
-        break;
-
-    case 5:
-
-        Pokemon activo =
-            jugadorActual.getCampo()
-                .getPokemonActivo();
-
-        if (activo == null) {
+        if (carta instanceof Entrenador) {
 
             System.out.println(
-                "No hay Pokemon activo."
-            );
-
-            break;
-        }
-
-        if (activo.getAtaques().isEmpty()) {
-
-            System.out.println(
-                "Este Pokemon no tiene ataques."
-            );
-
-            break;
-        }
-
-        System.out.println(
-            "Selecciona un ataque:"
-        );
-
-        for (int i = 0;
-             i < activo.getAtaques().size();
-             i++) {
-
-            Ataque ataque =
-                activo.getAtaques().get(i);
-
-            System.out.println(
-                (i + 1)
+                contador
                 + ". "
-                + ataque.getNombre()
+                + carta.getNombre()
             );
+
+            contador++;
         }
+    }
 
-        int opcionAtaque =
-            consola.elegirAtaque();
+    if (contador == 1) {
 
-        opcionAtaque--;
-
-        if (opcionAtaque >= 0 &&
-            opcionAtaque <
-            activo.getAtaques().size()) {
-
-            Ataque ataqueSeleccionado =
-                activo.getAtaques()
-                    .get(opcionAtaque);
-
-            boolean resultado =
-                jugadorActual.atacar(
-                    ataqueSeleccionado,
-                    rival
-                );
-
-            if (resultado) {
-
-                System.out.println(
-                    "Ataque realizado."
-                );
-
-            } else {
-
-                System.out.println(
-                    "No fue posible atacar."
-                );
-            }
-        }
+        System.out.println(
+            "No tienes entrenadores en la mano."
+        );
 
         break;
+    }
+
+    int opcionEntrenador =
+        consola.elegirEntrenador();
+
+    contador = 1;
+
+    for (int i = 0;
+        i < mano.size();
+        i++) {
+
+        Carta carta = mano.get(i);
+
+        if (carta instanceof Entrenador) {
+
+            if (contador ==
+                opcionEntrenador) {
+
+                Entrenador entrenador =
+                    (Entrenador) carta;
+
+                if (entrenador.puedeActivar(
+                        jugadorActual
+                    )) {
+
+                    entrenador.Activar(
+                        jugadorActual
+                    );
+
+                    mano.remove(i);
+
+                } else {
+
+                    System.out.println(
+                        "No es posible activar esa carta."
+                    );
+                }
+
+                break;
+            }
+
+            contador++;
+        }
+    }
+
+case 3:
+
+    System.out.println(
+        "Pokemon disponibles:"
+    );
+
+    List<Carta> manoPokemon =
+        jugadorActual.getMano();
+
+    int contadorPokemon = 1;
+
+    for (Carta carta : manoPokemon) {
+
+        if (carta instanceof Pokemon &&
+            carta.esPokemonBasico()) {
+
+            System.out.println(
+                contadorPokemon
+                + ". "
+                + carta.getNombre()
+            );
+
+            contadorPokemon++;
+        }
+    }
+
+    if (contadorPokemon == 1) {
+
+        System.out.println(
+            "No tienes Pokemon basicos en la mano."
+        );
+
+        break;
+    }
+
+    int opcionPokemon =
+        consola.elegirPokemon();
+
+    contadorPokemon = 1;
+
+    for (Carta carta : manoPokemon) {
+
+        if (carta instanceof Pokemon &&
+            carta.esPokemonBasico()) {
+
+            if (contadorPokemon ==
+                opcionPokemon) {
+
+                boolean colocado =
+                    jugadorActual
+                        .colocarPokemonEnJuego(
+                            carta
+                        );
+
+                if (colocado) {
+
+                    System.out.println(
+                        carta.getNombre()
+                        + " fue colocado en juego."
+                    );
+
+                } else {
+
+                    System.out.println(
+                        "No fue posible colocarlo."
+                    );
+                }
+
+                break;
+            }
+
+            contadorPokemon++;
+        }
+    }
+
+    break;
+
+case 4:
+
+    List<Pokemon> banco =
+        jugadorActual.getCampo().getBanco();
+
+    if (banco.isEmpty()) {
+
+        System.out.println(
+            "No hay Pokemon en el banco."
+        );
+
+        break;
+    }
+
+    System.out.println(
+        "Pokemon disponibles para sustituir al activo:"
+    );
+
+    for (int i = 0;
+        i < banco.size();
+        i++) {
+
+        Pokemon pokemon =
+            banco.get(i);
+
+        System.out.println(
+            (i + 1)
+            + ". "
+            + pokemon.getNombre()
+            + " (PS "
+            + pokemon.getPsActual()
+            + "/"
+            + pokemon.getPsMaximo()
+            + ")"
+        );
+    }
+
+    int opcionRetirada =
+        consola.elegirPokemon();
+
+    opcionRetirada--;
+
+    if (opcionRetirada < 0 ||
+        opcionRetirada >= banco.size()) {
+
+        System.out.println(
+            "Seleccion invalida."
+        );
+
+        break;
+    }
+
+    Pokemon nuevoActivo =
+        banco.get(opcionRetirada);
+
+    boolean retirado =
+        jugadorActual.retirarPokemonActivo(
+            nuevoActivo
+        );
+
+    if (retirado) {
+
+        System.out.println(
+            "Se retiro el Pokemon activo."
+        );
+
+    } else {
+
+        System.out.println(
+            "No fue posible realizar la retirada."
+        );
+    }
+
+    break;
+
+case 5:
+
+    Pokemon activo =
+        jugadorActual.getCampo()
+            .getPokemonActivo();
+
+    if (activo == null) {
+
+        System.out.println(
+            "No hay Pokemon activo."
+        );
+
+        break;
+    }
+
+    if (activo.getAtaques().isEmpty()) {
+
+        System.out.println(
+            "Este Pokemon no tiene ataques."
+        );
+
+        break;
+    }
+
+    System.out.println(
+        "Ataques disponibles:"
+    );
+
+    for (int i = 0;
+        i < activo.getAtaques().size();
+        i++) {
+
+        Ataque ataque =
+            activo.getAtaques().get(i);
+
+        System.out.println(
+            (i + 1)
+            + ". "
+            + ataque.getNombre()
+            + " | Daño: "
+            + ataque.getDanioBase()
+            + " | Coste: "
+            + ataque.getCostoEnergia()
+        );
+    }
+
+    int opcionAtaque =
+        consola.elegirAtaque();
+
+    opcionAtaque--;
+
+    if (opcionAtaque < 0 ||
+        opcionAtaque >= activo.getAtaques().size()) {
+
+        System.out.println(
+            "Ataque invalido."
+        );
+
+        break;
+    }
+
+    Ataque ataqueSeleccionado =
+        activo.getAtaques()
+            .get(opcionAtaque);
+
+    boolean resultado =
+        jugadorActual.atacar(
+            ataqueSeleccionado,
+            rival
+        );
+
+    if (resultado) {
+
+        System.out.println(
+            "Ataque realizado."
+        );
+
+        terminarTurno = true;
+
+    } else {
+
+        System.out.println(
+            "No fue posible atacar."
+        );
+    }
+
+    break;
 
     case 6:
 
