@@ -10,5 +10,10 @@ public class PokemonBasico extends Pokemon{
         return 1;
     }
 
+    @Override
+    public Boolean esPokemonBasico() {
+        return true;
+    }
+
     
 }
