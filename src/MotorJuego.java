@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.List;
 
 public class MotorJuego {
@@ -36,26 +37,54 @@ public void iniciarPartida() {
     System.out.println("La partida ha comenzado");
 }
 
+    // El jugador elige obligatoriamente 1 Pokémon como Activo. Opcionalmente
+    // puede colocar hasta 2 básicos más en la Banca. Solo puede haber 1 Activo.
     private void colocarPokemonInicial(Jugador jugador) {
 
-    for (Carta carta : jugador.getMano()) {
+        List<Carta> mano = jugador.getMano();
 
-        if (carta instanceof Pokemon &&
-            carta.esPokemonBasico()) {
+        // Recolectar los Pokémon básicos de la mano
+        List<Carta> basicos = new ArrayList<>();
+        for (Carta carta : mano) {
+            if (carta instanceof Pokemon && carta.esPokemonBasico()) {
+                basicos.add(carta);
+            }
+        }
 
-            jugador.colocarPokemonEnJuego(carta);
+        if (basicos.isEmpty()) {
+            return;
+        }
 
-            System.out.println(
-                jugador.getNombre()
-                + " coloco a "
-                + carta.getNombre()
-                + " como Pokemon inicial"
-            );
+        // 1. El jugador elige 1 Pokémon como Activo
+        int opcion = consola.elegirPokemonActivo(basicos);
 
-            break;
+        Carta activo = basicos.get(opcion - 1);
+        jugador.colocarPokemonEnJuego(activo);
+        System.out.println(activo.getNombre() + " es el Pokémon activo.");
+
+        // 2. Opcionalmente colocar hasta 2 básicos más en la Banca
+        while (jugador.getCampo().getBanco().size() < 2) {
+            List<Carta> restantes = new ArrayList<>();
+            for (Carta c : jugador.getMano()) {
+                if (c instanceof Pokemon && c.esPokemonBasico()) {
+                    restantes.add(c);
+                }
+            }
+            if (restantes.isEmpty()) {
+                break;
+            }
+            int sel = consola.elegirPokemonBanca(restantes);
+            if (sel == 0) {
+                break;
+            }
+            Carta alBanco = restantes.get(sel - 1);
+            if (jugador.colocarPokemonEnJuego(alBanco)) {
+                System.out.println(alBanco.getNombre() + " fue al banco.");
+            } else {
+                System.out.println("No fue posible colocarlo.");
+            }
         }
     }
-}
 
     public void ejecutarPartida() {
 
@@ -98,22 +127,42 @@ private void ejecutarTurno(
 
         switch (accion) {
 
-    case 1:
+    case 1: {
+        // Adjuntar 1 energía del turno al Activo o a un Pokémon de la Banca
+        List<Pokemon> propios = new ArrayList<>();
+        Pokemon activoAux = jugadorActual.getCampo().getPokemonActivo();
+        if (activoAux != null) {
+            propios.add(activoAux);
+        }
+        propios.addAll(jugadorActual.getCampo().getBanco());
 
-        if (jugadorActual.adjuntarEnergia()) {
-
-            System.out.println(
-                "Energia adjuntada correctamente."
-            );
-
-        } else {
-
-            System.out.println(
-                "No fue posible adjuntar energia."
-            );
+        if (propios.isEmpty()) {
+            System.out.println("No tienes Pokémon en juego.");
+            break;
         }
 
+        System.out.println("¿A qué Pokémon quieres adjuntar la energía?");
+        for (int i = 0; i < propios.size(); i++) {
+            Pokemon p = propios.get(i);
+            String zona = (p == activoAux) ? "[Activo]" : "[Banco]";
+            System.out.println((i + 1) + ". " + zona + " " + p.getNombre()
+                + " (PS " + p.getPsActual() + "/" + p.getPsMaximo() + ")");
+        }
+
+        int opcionEnergia;
+        do {
+            opcionEnergia = consola.elegirPokemon();
+        } while (opcionEnergia < 1 || opcionEnergia > propios.size());
+
+        Pokemon objetivoEnergia = propios.get(opcionEnergia - 1);
+
+        if (jugadorActual.adjuntarEnergia(objetivoEnergia)) {
+            System.out.println("Energia adjuntada correctamente.");
+        } else {
+            System.out.println("No fue posible adjuntar energia.");
+        }
         break;
+    }
 
     case 2:
 
@@ -191,6 +240,8 @@ private void ejecutarTurno(
             contador++;
         }
     }
+     
+    break;
 
 case 3:
 
