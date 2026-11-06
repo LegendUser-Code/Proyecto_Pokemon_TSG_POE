@@ -56,7 +56,7 @@ public void iniciarPartida() {
         }
 
         // 1. El jugador elige 1 Pokémon como Activo
-        int opcion = consola.elegirPokemonActivo(basicos);
+        int opcion = consola.elegirPokemonActivo(basicos, jugador);
 
         Carta activo = basicos.get(opcion - 1);
         jugador.colocarPokemonEnJuego(activo);
@@ -497,12 +497,18 @@ case 5:
 
         break;
     }
+
 }
 
     System.out.println(
         "Turno finalizado para "
         + jugadorActual.getNombre()
     );
+
+    if(terminarTurno){
+        consola.pausar();
+    }
+
 }
 public boolean verificarGanador() {
 

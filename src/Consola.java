@@ -29,6 +29,7 @@ public class Consola {
     }
 
     public void mostrarEstado(Jugador jugadorActual, Jugador rival, int turno) {
+        limpiarConsola();
         String igual = linea('=', 70);
         String guion = linea('-', 70);
 
@@ -183,11 +184,11 @@ public class Consola {
     }
 
     // Menu bonito para elegir el Pokemon activo al inicio de la partida.
-    public int elegirPokemonActivo(List<Carta> basicos) {
+    public int elegirPokemonActivo(List<Carta> basicos, Jugador jugador) {
         String igual = linea('=', 70);
         String guion = linea('-', 70);
         System.out.println(igual);
-        System.out.println(" ELIGE TU POKEMON ACTIVO");
+        System.out.println(jugador.getNombre() + " ELIGE TU POKEMON ACTIVO");
         System.out.println(igual);
         for (int i = 0; i < basicos.size(); i++) {
             Carta c = basicos.get(i);
@@ -260,5 +261,15 @@ public class Consola {
         int valor = this.scanner.nextInt();
         this.scanner.nextLine();
         return valor;
+    }
+
+    public void pausar(){
+        System.out.print("Presiona Enter para continuar: ");
+        this.scanner.nextLine();
+    }
+
+    public void limpiarConsola(){
+        System.out.print("\033[H\033[2J\033[3J");
+        System.out.flush();
     }
 }

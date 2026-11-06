@@ -39,13 +39,12 @@ public class App {
         energias.add(TipoEnergia.AGUA);
         energias.add(TipoEnergia.ELECTRICO);
         energias.add(TipoEnergia.PSIQUICO);
-        energias.add(TipoEnergia.INCOLORO);
 
         ZonaEnergia zonaJugador1 =
-            new ZonaEnergia(energias);
+            new ZonaEnergia(mazo1.getTiposEnergia());
 
         ZonaEnergia zonaJugador2 =
-            new ZonaEnergia(energias);
+            new ZonaEnergia(mazo2.getTiposEnergia());
 
         Jugador jugador1 =
             new Jugador(
