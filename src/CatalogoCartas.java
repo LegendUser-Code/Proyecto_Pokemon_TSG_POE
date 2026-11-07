@@ -4,16 +4,23 @@ import java.util.List;
 public class CatalogoCartas {
 
     public Mazo crearMazoPredefinido(int opcion) {
+        List<TipoEnergia> tipoEnergia = new ArrayList<>();
+
         if (opcion == 1) {
-            return new Mazo(armarMazoFuegoAgua());
+            tipoEnergia.add(TipoEnergia.FUEGO);
+            tipoEnergia.add(TipoEnergia.AGUA);
+            return new Mazo(armarMazoFuegoAgua(), tipoEnergia);
         }else if (opcion == 2) {
-            return new Mazo(armarMazoElectricoPsiquico());
+            tipoEnergia.add(TipoEnergia.ELECTRICO);
+            tipoEnergia.add(TipoEnergia.PSIQUICO);
+            return new Mazo(armarMazoElectricoPsiquico(), tipoEnergia);
         }
         else if (opcion == 3) {
-            return new Mazo(armarMazoCampeones());
+            return new Mazo(armarMazoCampeones(), null);
         }
         return null;
     }
+    
 
     public List<String> getNombreMazos() {
         List<String> nombres = new ArrayList<>();
@@ -36,7 +43,7 @@ public class CatalogoCartas {
             cartas.add(new Pocion());
             cartas.add(new PokeBall());
             cartas.add(new Misty());
-            cartas.add(new Blaine());
+            cartas.add(new TurboVelocidad());
         }
         return cartas;
     }
@@ -52,8 +59,8 @@ public class CatalogoCartas {
             cartas.add(new InvestigacionDelProfesor());
             cartas.add(new Pocion());
             cartas.add(new PokeBall());
-            cartas.add(new Sabrina());
-            cartas.add(new TenienteSurge());
+            cartas.add(new Misty());
+            cartas.add(new TurboVelocidad());
         }
         return cartas;
     }
@@ -64,14 +71,14 @@ public class CatalogoCartas {
     for (int i = 0; i < 2; i++) {
         cartas.add(crearPikachu());
         cartas.add(crearCharmander());
-        cartas.add(crearSquirtle());
+        cartas.add(crearJigglypuff());
         cartas.add(crearMewtwoEx());
         cartas.add(crearZapdosEx());
-        cartas.add(new Bill());
-        cartas.add(new Blaine());
-        cartas.add(new TenienteSurge());
+        cartas.add(new InvestigacionDelProfesor());
+        cartas.add(new Pocion());
+        cartas.add(new PokeBall());
         cartas.add(new Misty());
-        cartas.add(new Sabrina());
+        cartas.add(new TurboVelocidad());
     }
 
     return cartas;

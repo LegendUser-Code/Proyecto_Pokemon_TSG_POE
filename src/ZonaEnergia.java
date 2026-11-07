@@ -21,7 +21,7 @@ public class ZonaEnergia {
         }
         int indice = random.nextInt(tiposPosibles.size());
         this.energiaActual = this.tiposPosibles.get(indice);
-        System.out.println("Energía generad para el turno " + this.energiaActual);
+        System.out.println("Energía generada para el turno " + this.energiaActual);
     }
 
     public boolean hayEnergiaDisponible() {

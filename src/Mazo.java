@@ -10,11 +10,14 @@ public class Mazo {
     public static final int MAX_COPIAS = 2;
     public static final int MIN_BASICOS = 6;
     public static final int MANO_INICIAL = 5;
+    public static final int MIN_TIPOS_ENERGIA = 1;
+    public static final int MAX_TIPOS_ENERGIA = 3;
 
     private List<Carta> composicion;
     private List<Carta> cartas;
+    private List<TipoEnergia> tiposEnergia = new ArrayList<>();
 
-    public Mazo(List<Carta> cartas) {
+    public Mazo(List<Carta> cartas, List<TipoEnergia> tiposDeEnergias) {
         if (cartas == null || !cumpleReglas(cartas)) {
             System.out.println("Mazo invalido: se requieren " + TAMANO + " cartas, maximo "
                 + MAX_COPIAS + " copias por carta y minimo " + MIN_BASICOS + " basicos");
@@ -22,6 +25,13 @@ public class Mazo {
         List<Carta> base = cartas == null ? new ArrayList<>() : cartas;
         this.composicion = new ArrayList<>(base);
         this.cartas = new ArrayList<>(base);
+
+        if (!tiposEnergiaValido(tiposDeEnergias)) {
+        System.out.println("Mazo invalido, se generaran energias por defecto");
+        this.tiposEnergia = tiposPorDefecto(base);
+        } else{
+            this.tiposEnergia = new ArrayList<>(tiposDeEnergias);
+        }
     }
 
     public boolean esValido() {
@@ -94,6 +104,42 @@ public class Mazo {
 
     public List<Carta> getCartas() {
     return cartas;
-}
+    }
 
+    private static boolean tiposEnergiaValido(List<TipoEnergia> tipos){
+        if(tipos == null){
+            return false;
+        }
+        if(tipos.size() < MIN_TIPOS_ENERGIA
+        || tipos.size() > MAX_TIPOS_ENERGIA){
+            return false;
+        }
+        for( TipoEnergia tipo : tipos){
+            if (tipo == null || tipo == TipoEnergia.INCOLORO){
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public List<TipoEnergia> getTiposEnergia(){
+        return new ArrayList<>(this.tiposEnergia);
+    }
+
+    private static List<TipoEnergia> tiposPorDefecto(List<Carta> cartas){
+        List<TipoEnergia> tipos = new ArrayList<>();
+        for (Carta carta : cartas){
+            if(tipos.size() < MAX_TIPOS_ENERGIA && carta instanceof Pokemon){
+                Pokemon pokemonCarta = (Pokemon)carta;
+                TipoEnergia tipo = pokemonCarta.getTipo();
+                if(tipo != null && tipo != TipoEnergia.INCOLORO && !tipos.contains(tipo)){
+                    tipos.add(tipo);
+                }
+            }
+        }
+        if (tipos.isEmpty()) {
+        tipos.add(TipoEnergia.FUEGO);
+        }
+        return tipos;
+    }
 }
